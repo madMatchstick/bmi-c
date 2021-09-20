@@ -12,6 +12,7 @@ extern "C" {
 #define BMI_MAX_TYPE_NAME (2048)
 #define BMI_MAX_COMPONENT_NAME (2048)
 #define BMI_MAX_VAR_NAME (2048)
+#define BMI_MAX_LOCATION_NAME (2048) //OWP Custom
 
 
 typedef struct Bmi {
@@ -53,6 +54,14 @@ typedef struct Bmi {
   /* Setters */
   int (*set_value)(struct Bmi *self, const char *name, void *src);
   int (*set_value_at_indices)(struct Bmi *self, const char *name, int *inds, int count, void *src);
+
+  // New BMI functions to support serialization
+  int (*get_state_var_count)(struct Bmi *self, int *count);
+  int (*get_state_var_names)(struct Bmi *self, char ** names);
+  int (*get_state_var_types)(struct Bmi *self, char ** types);
+  int (*get_state_var_ptrs)(struct Bmi *self, void *ptr_list[]);
+  int (*get_state_var_sizes)(struct Bmi *self, unsigned int sizes[]);
+  int (*set_state_var)(struct Bmi *self, void *src, int index);
 
   /* Grid information */
   int (*get_grid_rank)(struct Bmi *self, int grid, int *rank);
